@@ -1,0 +1,27 @@
+{% extends 'mainapp/base_template.html' %}
+
+{% block content %}
+<article class="card">
+	<div class="row">
+		<div class="col-md-9 card card-body">
+			<form method="POST" action="">
+				{% csrf_token %}
+
+				<!-- <input type="hidden" name="user" value="{{ request.user }}"> -->
+
+				<p>Are you sure that you wanna to delete this post?</p>
+
+				<a class="btn btn-warning" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+
+				<input class="btn btn-danger" type="submit" name="" value="Submit">
+
+			</form>
+
+		</div>
+
+		{% include 'forum/forum_navigation_sidebar.html' %}
+	</div>
+</article>
+
+{% endblock %}
+

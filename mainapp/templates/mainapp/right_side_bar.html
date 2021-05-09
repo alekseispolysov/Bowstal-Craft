@@ -1,0 +1,48 @@
+<div class="col-md-3">
+	<div class="card card-body phone-hide sticky-sidebar">
+		<h2>Sidebar</h2>
+		<hr>
+			<h6 class="text-center">Account management</h6>
+			<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+			{% if user.is_authenticated %}
+			User: {{ user.get_username }}
+			<a href="{% url 'authentication:user-profile' %}" class="btn btn-primary">Account Preferences</a>
+			<a  href="{% url 'authentication:logout'%}" class="btn btn-primary">Logout</a>
+			{% else %}  
+			  <a href="{% url 'authentication:login'%}" class="btn btn-primary">Login</a>
+			  <a href="{% url 'authentication:register-new-user-page' %}" class="btn btn-primary">Register</a>
+			  <a href="{% url 'authentication:reset_password' %}" class="btn btn-primary">Reset password</a>
+			{% endif %}
+			</div>
+		<!-- <ul>
+			<h6>Account management</h3>
+			{% if user.is_authenticated %}
+     		<li>User: {{ user.get_username }}</li>
+     		<li><a href="{% url 'authentication:logout'%}">logout</a></li>
+			{% else %}
+			<li><a href="{% url 'authentication:login' %}">login</a></li>
+			<li><a href="{% url 'authentication:register-new-user-page' %}">register</a></li>
+			<li><a href="{% url 'authentication:reset_password' %}">reset password</a></li>
+			{% endif %}
+		</ul> -->
+		<hr>
+		
+		<a id="scroll-top" class="btn btn-info" href="javascript:;">Go up</a>
+		{% if messages %}
+		<hr>
+		{% for message in messages %}
+		<div class="container-fluid p-3">
+		  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+		    {{ message }}
+		  </div>
+		</div>
+		{% endfor %}
+		{% endif %}
+
+		{% if request.user.is_staff %}
+		<hr>
+		<a class="btn btn-danger" href="{% url 'admin:index' %}">Admin panel</a>
+		{% endif %}
+	</div>
+</div>
+

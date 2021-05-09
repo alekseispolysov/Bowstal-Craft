@@ -1,0 +1,35 @@
+<div class="col-md-3">
+	<div class="card card-body phone-hide sticky-sidebar">
+		<h2>Forum<br>Navigation</h2>
+		<hr>
+		<ul>
+			<h6>Account management</h3>
+			{% if user.is_authenticated %}
+     		<li>User: {{ user.get_username }}</li>
+     		<li><a href="{% url 'authentication:logout'%}">logout</a></li>
+			{% else %}
+			<li><a href="{% url 'authentication:login' %}">login</a></li>
+			<li><a href="{% url 'authentication:register-new-user-page' %}">register</a></li>
+			<li><a href="{% url 'authentication:reset_password' %}">reset password</a></li>
+			{% endif %}
+		</ul>
+		<hr>
+		<ul>
+			<li><a id="scroll-top" href="javascript:;">Go up</a></li>
+		</ul>
+		<hr>
+		<ul>
+			<li><a href="{% url 'forum:forum-create-post' %}">Create Forum post</a></li>
+			<li><a href="{% url 'forum:forum-index-page' %}?name&user_username={{request.user.username}}">View my posts</a></li>
+		</ul>
+
+		{% if request.user.is_staff %}
+		<hr>
+
+		<ul>
+			<h6>Admin Sidebar menu</h6>
+			<li><a href="{% url 'admin:index' %}">Admin panel</a></li>
+		</ul>
+		{% endif %}
+	</div>
+</div>

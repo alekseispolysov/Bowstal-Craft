@@ -1,0 +1,39 @@
+{% extends 'mainapp/base_template.html' %}
+{% load static from static %}
+
+{% block content %}
+
+<article>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-2 mx-auto mt-2 p-3 border article-system-bg-white">
+				<img class="profile-picure-big mx-auto d-block" src="{{user_object.user_profile.profile_picture.url}}" alt="Profile Image">
+				<hr>
+				<div class="d-grid gap-0">
+					{% if request.user != user_object %}
+					<button class="btn btn-dark" type="button">Write a message</button>
+					<button class="btn btn-dark" type="button">Report</button>
+					{% endif %}
+					<a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning">Go back</a>
+				</div>
+
+			</div>
+			<div class="col-sm-8 mx-auto mt-2 pb-3 border article-system-bg-white">
+				
+				<h2 class="text-primary text-center">{{user_object.username}}</h2>
+				<hr>
+				<p>Reputation: {{user_object.user_profile.reputation}}</p>
+				<p>Description</p>
+				<p>{{user_object.user_profile.description}}</p>
+				<p class="float-start">Date joined: {{ user_object.date_joined }}</p>
+			</div>
+			<div class="col-sm-1"></div>
+		</div>
+	</div>
+</article>
+
+
+
+
+{% endblock %}

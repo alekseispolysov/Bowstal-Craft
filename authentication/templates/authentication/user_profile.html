@@ -1,0 +1,39 @@
+{% extends 'mainapp/base_template.html' %}
+{% load static from static %}
+
+{% block content %}
+
+<article>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 mx-auto m-2 p-3 border article-system-bg-white">
+				<img class="profile-picure-big mx-auto d-block" src="{{user.user_profile.profile_picture.url}}" alt="Profile Image">
+				<hr>
+				<div class="d-grid gap-0">
+						<button class="btn btn-dark" type="button" disabled>General</button>
+						<button class="btn btn-dark" type="button">Security</button>
+						{% if request.user.is_staff %}
+						<button class="btn btn-dark" type="button">Email messages</button>
+						{% endif %}
+						<a class="btn btn-warning" href="{% url 'authentication:logout' %}">Logout</a>
+				</div>
+
+			</div>
+			<div class="col-sm-9 mx-auto m-2 p-3 border article-system-bg-white">
+				
+				<h2 class="text-primary text-center">Profile Settings</h2>
+				<hr>
+				<p>Username: {{user.username}}</p>
+				<p>Email: {{user.email}}</p>
+				<p>Reputation: {{user.user_profile.reputation}}</p>
+				
+			</div>
+		</div>
+	</div>
+</article>
+
+
+
+
+
+{% endblock %}

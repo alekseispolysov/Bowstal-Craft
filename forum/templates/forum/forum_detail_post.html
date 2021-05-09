@@ -1,0 +1,69 @@
+{% extends 'mainapp/base_template.html' %}
+{% load static from static %}
+
+{% block content %}
+
+<article>
+	<div class="row">
+		<div class="col-md-9">
+
+			<div class="card card-body post forum-post-image">
+				<hr>
+				<h2 class="text-primary text-center">{{object.name}}</h2>
+				<hr>
+				<p>Topic: {{object.topic}}</p>
+				<p>Tags: 
+					<ul>
+				        {% for tag in object.tags.all %}
+				            <li class="tag"> {{ tag.name }} </li>
+				        {% endfor %}
+        			</ul>
+    			</p>
+				{{object.text|safe}}
+				
+				{% if request.user.id == object.user.id or request.user.is_staff %}
+				
+					<a class="btn btn-dark btn-sm" href="{% url 'forum:forum-update-post' object.id %}">Edit post</a>
+					<a class="btn btn-dark btn-sm" href="{% url 'forum:forum-delete-post' object.id %}">Delete post</a>
+				{% endif %}
+				<i class="p-3 text-end">{{object.date_created}}</i>
+			</div>
+			{% for comment in object.post_comment.all %}
+			<div class="card card-body mb-3 post forum-post-image">
+				<p>
+					{{comment.user.username}}
+				</p>
+				<p>
+					{{comment.citation.text}}
+				</p>
+				<p>
+					{{comment.text|safe}}
+				</p>
+				<p>
+					{{comment.date_created}}
+				</p>
+			</div>
+			{% endfor %}
+			{% if request.user.is_authenticated %}
+			<div class="card card-body">
+				<form method="Post" action="">
+					{% csrf_token %}
+
+
+
+
+					<input class="btn btn-primary" type="Submit" name="" value="Post a comment">
+				</form>
+			</div>
+			{% else %}
+			To be able to post a comment, please <a href="{% url 'authentication:login' %}">login</a>
+			{% endif %}
+		</div>
+		{% include 'forum/forum_navigation_sidebar.html' %}
+	</div>
+</article>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'mainapp/base_template.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<article class="card">
+<div class="row">
+	<div class="col-md-9 card card-body">
+		<form method="POST" action="">
+			{% csrf_token %}
+
+			<!-- <input type="hidden" name="user" value="{{ request.user }}"> -->
+
+			{{form.media}}
+
+
+
+			{{form|crispy}}
+			<input class="btn btn-primary" type="submit" name="" value="Submit">
+			</form>
+	</div>
+
+	{% include 'forum/forum_navigation_sidebar.html' %}
+</div>
+</article>
+{% endblock %}
+
