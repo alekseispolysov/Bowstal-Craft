@@ -13,6 +13,6 @@ urlpatterns = [
 	path('post/<str:pk>/', views.PostDetailPage.as_view(), name='post-detail'),
 	path('contact/', views.ContactPage.as_view(), name='contact-page'),
 	path('contact/confirm', views.ConfirmPage.as_view(), name='confirm-contact-page'),
-	path('security/report/bug', views.SecurityContactPage.as_view(), name='secutiry-report-bug'),
+	path('security/report', views.SecurityContactPage.as_view(), name='secutiry-report-bug'),
 	path('security/success/', views.SuccessSecurityPage.as_view(), name='secutiry-report-success'),
 ]

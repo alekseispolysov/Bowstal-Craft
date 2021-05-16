@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'forum.apps.ForumConfig',
     'todo.apps.TodoConfig',
     'authentication.apps.AuthenticationConfig',
+    'chat.apps.ChatConfig',
 ]
 
 

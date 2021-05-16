@@ -5,6 +5,7 @@
 /* #todo checkout the bug with resizing in chrome__ */
 *{
     font-size: 1vw;
+    
 }
 
 
@@ -50,6 +51,7 @@
     width: 100%;
     height: 37vw;
     background: linear-gradient(180deg, rgba(33, 37, 41, 0) 60%, rgba(0,0,0,1) 100%);
+    margin-bottom: -3px;
 }
 
 /* scale text to 10vw (to the scale of the viewport, repectivy with -||-) + reponsivnes out of it */
@@ -350,8 +352,13 @@ p{
 }
 
 
-/* chat stuf */
-.input_box
+/* centerize the home page content */
+.center{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
+}
 
 
