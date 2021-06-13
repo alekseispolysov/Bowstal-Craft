@@ -36,11 +36,18 @@
 
 	<div class="bg-dark p-2">
 		<form class="d-flex flex-fill justify-content-center align-center" method="GET"> 
-			 {% for field in myFilter.form %}
+			 <!-- {% for field in myFilter.form %}
 				<div class="form-outline flex-fill me-2 text-light my-auto" placeholder="{{field.label}}" aria>
 					{{field}}
 				</div>			
-			{% endfor %}
+			{% endfor %} -->
+
+			<div class="form-outline flex-fill me-2 text-light my-auto" placeholder="{{field.form.name.label}}" aria>
+				{{myFilter.form.name}}
+			</div>		
+			<div class="form-outline flex-fill me-2 text-light my-auto" placeholder="{{field.form.user_username.label}}" aria>
+				{{myFilter.form.user_username}}
+			</div>
 
 			<!-- <div class="form-outline flex-fill me-2 text-light" placeholder="Name" name="">
 				{{myFiler.name}}
@@ -61,6 +68,8 @@
 
 			<a class="btn btn-success flex-fill" href="{% url 'forum:forum-create-post' %}">+</a>
 
+			<a href="{% url 'forum:forum-search' %}" class="btn btn-warning">Advanced search</a>
+
 			{% if request.user.is_authenticated %}
 
 			<button class="btn btn-dark flex-fill" disabled>Logged in as {{ request.user.username }}</button>
@@ -74,7 +83,7 @@
 	</div>
 
 
-
+	
 	
 	{% include 'forum/search.html' %}
 
@@ -99,7 +108,7 @@
 			  </thead>
 			  <tbody>
 			  	{% for forum_post in object_list %}
-			    <tr>
+			    <tr class="clickable-row" data-href="{% url 'forum:forum-detail-page' forum_post.id %}">
 			      
 			      <td class="text-center"><a href="{% url 'forum:forum-detail-page' forum_post.id %}">{{ forum_post.id }}</a></th>
 			      <td class="text-center">{{ forum_post.topic }}</td>
@@ -122,9 +131,24 @@
 			      <td class="text-center"><a href="{% url 'forum:forum-delete-post' forum_post.id %}" class="btn btn-danger btn-sm">Delete</a></td>
 			      {% endif %}
 			    </tr>
+			    {% empty %}
+			    <tr>
+			    	<td class="text-danger text-center">No results found...</td>
+			    	<td></td>
+			    	<td></td>
+			    	<td></td>
+			    	<td></td>
+			    	<td></td>
+			    	<td></td>
+			    	<td></td><td></td><td></td>
+			    </tr>
 			    {% endfor %}
 			  </tbody>
 			</table>
+			
+			<!-- {% if empty %}
+			there is no clue
+			{% endif %} -->
 		</div>
 		<!-- <div class="col-md-3">
 			<div class="card-body">

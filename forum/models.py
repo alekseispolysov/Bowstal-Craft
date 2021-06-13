@@ -28,7 +28,7 @@ class ForumPost(models.Model):
 	topic = models.CharField(max_length=100, null=True, choices=CATEGORY)
 	tags = TaggableManager(blank=True)
 	
-	text = RichTextUploadingField(null=True)
+	content = RichTextUploadingField(null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	#text = models.CharField(max_length=1200, null=True, blank=True)
 	# this line shows the owner of this field
@@ -41,7 +41,7 @@ class ForumPost(models.Model):
 class CommentToPost(models.Model):
 	user = models.ForeignKey(User, related_name="user_comment", blank=True, null=True, on_delete=models.CASCADE)
 	post = models.ForeignKey(ForumPost, related_name="post_comment", blank=True, null=True, on_delete=models.CASCADE)
-	text = RichTextUploadingField(null=True)
+	content = RichTextUploadingField(null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	citation = models.ForeignKey('self', related_name="citation_comment", blank=True, null=True, on_delete=models.CASCADE)
 

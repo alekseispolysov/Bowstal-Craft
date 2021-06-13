@@ -35,12 +35,12 @@ $(".clickable-row").click(function() {
     });
 
 
-if($(".django-ckeditor-widget")[0] !== undefined){
-  $(".django-ckeditor-widget").attr("display", "block");
-  CKEDITOR.on("instanceReady", function(event) {
-  $(".django-ckeditor-widget").attr("display", "block");
-});
-}
+// if($(".django-ckeditor-widget")[0] !== undefined){
+//   $(".django-ckeditor-widget").attr("display", "block");
+//   CKEDITOR.on("instanceReady", function(event) {
+//   $(".django-ckeditor-widget").attr("display", "block");
+// });
+// }
 
 // $('input:text').each(
 //     function(i,el) {

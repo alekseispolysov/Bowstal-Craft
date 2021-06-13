@@ -5,7 +5,7 @@
 
 <article>
 	<div class="row">
-		<div class="col-md-9">
+		<div class="col-md-9 mt-3 mb-3">
 
 			<div class="card card-body post forum-post-image">
 				<hr>
@@ -19,7 +19,7 @@
 				        {% endfor %}
         			</ul>
     			</p>
-				{{object.text|safe}}
+				{{object.content|safe}}
 				
 				{% if request.user.id == object.user.id or request.user.is_staff %}
 				
@@ -37,7 +37,7 @@
 					{{comment.citation.text}}
 				</p>
 				<p>
-					{{comment.text|safe}}
+					{{comment.content|safe}}
 				</p>
 				<p>
 					{{comment.date_created}}

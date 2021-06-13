@@ -12,7 +12,7 @@ urlpatterns = [
 	path('update/<str:pk>/', views.UpdateForumPost.as_view(), name="forum-update-post"),
 	path('delete/<str:pk>/', views.DeleteForumPost.as_view(), name="forum-delete-post"),
 	path('post/<str:pk>/', views.DetailForumPage.as_view(), name='forum-detail-page'),
-	# path('search/', views.Search.as_view(), name='forum-search'),
+	path('search/', views.fullSearch.as_view(), name='forum-search'),
 ]
 
 

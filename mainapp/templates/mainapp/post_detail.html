@@ -19,7 +19,7 @@
 				<form method="POST" action="">
 					{% csrf_token %}
 					{{form|crispy}}
-					<input class="btn btn-light" type="submit" name="" value="Post a comment">
+					<input class="btn btn-light mt-3" type="submit" name="" value="Post a comment">
 				</form>
 				{% else %}
 				{{next}}

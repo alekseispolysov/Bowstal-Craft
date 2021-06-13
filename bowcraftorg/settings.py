@@ -242,5 +242,11 @@ SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 ASGI_APPLICATION = 'bowcraftorg.asgi.application'
 
 
+# path to my login by email backend
 
+AUTHENTICATION_BACKENDS = ('authentication.backends.EmailBackend',)
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False

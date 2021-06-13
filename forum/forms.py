@@ -9,4 +9,11 @@ class ForumPostForm(ModelForm):
 		model = ForumPost
 		fields= '__all__'
 		exclude = ('user','date_sent',)
-		
+
+
+# class ForumPostAdvancedSearch(ModelForm):
+
+# 	class Meta:
+# 		model = ForumPost
+# 		fields = '__all__'
+# 		exclude = ('')

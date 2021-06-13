@@ -2,22 +2,25 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<article class="card">
-<div class="row">
-	<div class="col-md-9 card card-body">
-		<form method="POST" action="">
-			{% csrf_token %}
+<article>
+<div class="row container-fluid">
+	<div class="col-md-9 mb-3 mt-3">
+		<div class="card card-body">
+			<h1 class="text-primary">Create a new discussion</h1>
+			<form method="POST" action="">
+				{% csrf_token %}
 
-			<!-- <input type="hidden" name="user" value="{{ request.user }}"> -->
+				<!-- <input type="hidden" name="user" value="{{ request.user }}"> -->
 
-			{{form.media}}
+				{{form.media}}
 
 
 
-			{{form|crispy}}
+				{{form|crispy}}
 
-			<input class="btn btn-primary" type="submit" name="" value="Submit">
-		</form>
+				<input class="btn btn-primary" type="submit" name="" value="Create new discussion">
+			</form>
+		</div>
 	</div>
 
 	{% include 'forum/forum_navigation_sidebar.html' %}

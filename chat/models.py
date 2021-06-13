@@ -12,4 +12,16 @@ class ChatWith(models.Model):
 
 
 
+# the logic is this
+# user creates message to somebody
+# then somebody get permission to use this id of chat
+# then he recieves the message and can reply
+# if he don't want to chat with, he can set permission to the other user, so other user cannot even write and this user, cannot see what the other user is typed, all messages got deleted
+class Chat(models.Model):
+	pass
 
+class Chat_line(models.Model):
+	user = models.ForeignKey(User, related_name="user", blank=True, null=True, on_delete=models.CASCADE)
+	chat = models.ForeignKey(Chat, related_name="chat", blank=True, null=True, on_delete=models.CASCADE)
+	content = models.CharField(max_length=50, null=True)
+	date_sent = models.DateTimeField(auto_now_add=True, null=True)

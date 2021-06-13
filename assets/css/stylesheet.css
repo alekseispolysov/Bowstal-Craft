@@ -105,7 +105,7 @@ article{
 
 .sticky-sidebar{
     position: sticky;
-    top: 125px;
+    top: 6.4vw;
     margin-bottom: 20px;
 }
 
@@ -362,3 +362,63 @@ p{
 }
 
 
+
+/* blank container */
+
+.blank-container{
+  min-height: 5.5vw;
+  width: 100%;
+}
+
+/*.news_blank{
+  min-height: 30px;
+}*/
+/*@media(max-width: 1338px){
+  .blank-container{
+    min-height: 50px;
+  }
+  .sticky-sidebar{
+    top: 50px;
+  }
+}
+@media(max-width: 1068){
+    .blank-container{
+    min-height: 40px;
+  }
+  .sticky-sidebar{
+    top: 40px;
+  }
+}*/
+
+main.main{
+  margin-top: 9px;
+}
+@media(max-width: 700){
+  main.main{
+    margin-top: 45px;
+  }
+}
+@media(max-width: 600){
+  main.main{
+    margin-top: 50px;
+  }
+}
+@media(max-width: 500){
+  main.main{
+    margin-top: 55px;
+  }
+}
+
+/* ck-editor */
+
+#cke_id_text{
+  width: auto !important;
+}
+
+#cke_description {
+    width: auto !important;
+}
+
+.django-ckeditor-widget {
+  width: 100%;
+}

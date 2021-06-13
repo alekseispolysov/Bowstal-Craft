@@ -1,0 +1,54 @@
+{% extends 'mainapp/base_template.html' %}
+
+{% load static from static %}
+
+
+{% block content %}
+
+
+
+
+<!-- 2 main sections in one container -->
+
+<div class="chat-container">
+	<!-- sidebar with options and disqusttions -->
+	<aside class="chat-sidebar">
+		<!-- div with searchbox -->
+		<div>
+			<input id="chat_filter" type="text">
+		</div>
+		<!-- conainers with contacts -->
+		<div>
+			<!-- one disqussion container -->
+			<div>
+				<!-- user image -->
+				<img>
+				<!-- username -->
+				<div></div>
+				<!-- messsage (short) -->
+				<p></p>		
+			</div>
+		</div>
+	</aside>
+	<!-- main view of the chat -->
+	<main class="chat-view">
+		<!-- container with chat information (username + image of chatting with) -->
+		<div>
+			
+		</div>
+		<!-- container of messages -->
+		<div>
+			<!-- individual message from user -->
+			<div>
+				
+			</div>
+			<!-- individual message to user -->
+			<div>
+				
+			</div>
+		</div>
+	</main>
+</div>
+
+
+{% endblock %}

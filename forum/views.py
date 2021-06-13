@@ -88,5 +88,54 @@ class DetailForumPage(DetailView):
 
 
 
+# new advanced search
+class fullSearch(View):
+	# generate page with get method
+	def get(self, request):
+		# myFilter = AdvancedForumFilter()
+		# ctx = {
+		# 'myFilter':myFilter,
+		# }
+
+
+
+
+		return render(request, 'forum/fullsearch.html')
+
+	def post(self, request):
+
+		# getting everything from POST dictionary
+		iD = request.POST['iD']
+		name = request.POST['name']
+		author = request.POST['author']
+		topic = request.POST['topic']
+		tags = request.POST['tags']
+		reputation = request.POST['reputation']
+		contains = request.POST['contains']
+		date_after = request.POST['date_after']
+		date_before = request.POST['date_before']
+
+		# construct url
+		url = f'/forum/?id={iD}&name={name}&user__username={author}&topic={topic}&tags={tags}&text={contains}&start_date={date_after}&end_date={date_before}'
+		# redirect
+		return redirect(url)
+
+		# choices date_created, id, name, post_comment, tagged_items, tags, text, topic, user, user_id
+
+		# queryset =
+
+		# url = ?ForumPost__name=&
+
+		# get what info have been sended
+		# post_name = request.POST['']
+
+		# access database model and filter eveything what we need
+		# generate url for filter in forum filter view
+		# forum/
+		# redirect to that url
+		pass
+
+
+
 
 

@@ -1,0 +1,86 @@
+{% extends 'mainapp/base_template.html' %}
+
+{% block content %}
+
+	<div class="row container-fluid">
+		<div class="col-md-12 mt-4">
+			<h1 class="text-primary text-center">Advanced search</h1>
+			<form method="POST">
+				{% csrf_token %}
+				  <!-- <div class="mb-3 mt-3">
+				    <label for="exampleInputEmail1" class="form-label">Email address</label>
+				    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+				    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+				  </div>
+				  <div class="mb-3">
+				    <label for="exampleInputPassword1" class="form-label">Password</label>
+				    <input type="password" class="form-control" id="exampleInputPassword1">
+				  </div>
+				  <div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+				    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+				  </div>
+				  <button type="submit" class="btn btn-primary">Submit</button> -->
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="iD" class="col-sm-2 col-form-label">Post ID</label>
+				    <div class="col-sm-10">
+				      <input type="number" name="iD" class="form-control" id="iD">
+				    </div>
+				  </div>
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="name" class="col-sm-2 col-form-label">Post name</label>
+				    <div class="col-sm-10">
+				      <input type="text" name="name" class="form-control" id="name">
+				    </div>
+				  </div>
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="author" class="col-sm-2 col-form-label">Author</label>
+				    <div class="col-sm-10">
+				      <input type="text" name="author" class="form-control" id="author">
+				    </div>
+				  </div>
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="topic" class="col-sm-2 col-form-label">Topic</label>
+				    <div class="col-sm-10">
+				      <input type="text" name="topic" class="form-control" id="topic">
+				    </div>
+				  </div>
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+				    <div class="col-sm-10">
+				      <input type="text" name="tags" class="form-control" id="tags">
+				    </div>
+				  </div>
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="reputation" class="col-sm-2 col-form-label">Reputation</label>
+				    <div class="col-sm-10">
+				      <input type="text" name="reputation" class="form-control" id="reputation">
+				    </div>
+				  </div>
+				  <hr>
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="contains" class="col-sm-2 col-form-label">Text contains</label>
+				    <div class="col-sm-10">
+				      <input type="text" name="contains" class="form-control" id="contains">
+				    </div>
+				  </div>
+				  <hr>
+
+				  <div class="mb-3 row ms-3 me-3">
+				    <label for="date_after" class="col-sm-2 col-form-label">Created After</label>
+				    <div class="col-sm-4">
+				      <input type="text" name="date_after" class="form-control" id="date_after">
+				      <small class="text-primary">Date format: Year, Month, Day. eg(2020-12-03)</small>
+				    </div>
+				    <label for="date_before" class="col-sm-2 col-form-label">Created before</label>
+				    <div class="col-sm-4">
+				      <input type="text" name="date_before" class="form-control" id="date_before">
+				    </div>
+				  </div>
+				  <a href="{{request.META.HTTP_REFERER}}" class="btn btn-warning btn-lg">Go back</a>
+				  <button type="submit" class="btn btn-primary btn-lg">Search</button>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}

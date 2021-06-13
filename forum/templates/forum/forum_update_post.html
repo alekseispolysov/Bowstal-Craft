@@ -4,8 +4,9 @@
 
 {% block content %}
 <article class="card">
-<div class="row">
-	<div class="col-md-9 card card-body">
+<div class="row container-fluid">
+	<div class="col-md-9 mt-3 mb-3">
+		<div class="card card-body">
 		<form method="POST" action="">
 			{% csrf_token %}
 
@@ -13,11 +14,11 @@
 
 			{{form.media}}
 
-
-
 			{{form|crispy}}
+
 			<input class="btn btn-primary" type="submit" name="" value="Submit">
 			</form>
+		</div>
 	</div>
 
 	{% include 'forum/forum_navigation_sidebar.html' %}
