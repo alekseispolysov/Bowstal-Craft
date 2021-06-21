@@ -1,5 +1,7 @@
 {% extends 'mainapp/base_template.html' %}
 {% load static from static %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 
@@ -38,6 +40,39 @@
 					<a class="btn btn-dark btn-sm" href="{% url 'forum:forum-delete-post' object.id %}">Delete post</a>
 				{% endif %}
 				<i class="p-3 text-end">{{object.date_created}}</i>
+				<hr>
+				<!-- comments -->
+				{% if request.user.is_authenticated %}
+				<form method="POST" action="">
+					{% csrf_token %}
+					{{form|crispy}}
+					<input class="btn btn-light mt-3" type="submit" name="" value="Post a comment">
+				</form>
+				{% else %}
+				{{next}}
+
+				To be able to write a comment please <a href="{% url 'authentication:login' %}?next={{request.path}}">Login</a>
+				{% endif %}
+
+				<!-- comments -->
+
+				<hr>
+				Comments ({{ comments.count }})
+				<hr>
+
+				{% for comment in comments reversed %}
+				<div class="comment">
+					<div class="">
+						<a href="{% url 'authentication:user-view-profile' comment.user.id %}"><img class="comment-image" src="{{comment.user.user_profile.profile_picture.url}}" alt="Profile Image"></a>
+					</div>
+					<div class="">
+						<div class="comment-nick"><a class="text" href="{% url 'authentication:user-view-profile' comment.user.id %}">{{comment.user.username}}</a>
+						<span class="comment-date-posted">{{ comment.date_created }}</span><i class="fas fa-clock comment-date-posted"></i>
+						</div>
+						<p class="card comment-text"> {{comment.text}} </p>
+					</div>
+				</div>
+				{% endfor %}
 			</div>
 			{% for comment in object.post_comment.all %}
 			<div class="card card-body mb-3 post forum-post-image">

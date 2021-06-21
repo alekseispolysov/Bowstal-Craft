@@ -5,7 +5,7 @@
 		<h2>
 			{{ post.name }}
 		</h2>
-		<img class="img-fluid" src="{{ post.preview_picture.url }}">
+		<a href="{% url 'mainapp:post-detail' post.id %}"><img class="img-fluid" src="{{ post.preview_picture.url }}"></a>
 		<p>
 			{{ post.preview_text }}
 		</p>

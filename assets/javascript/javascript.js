@@ -29,6 +29,12 @@ $("#scroll-top").click(function(){
       block: "start",
     });
 });
+$("#scroll-bot").click(function(){
+  $("footer")[0].scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+});
 
 $(".clickable-row").click(function() {
         window.location = $(this).data("href");

@@ -38,7 +38,17 @@
           <a class="nav-link {% if request.path == url_about %}active{% endif %}" href="{{url_about}}">About</a>
         </li>
       </ul>
+      
+      <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+        <li><a id="scroll-top" href="javascript:;" class="nav-link"><i class="fas fa-arrow-up"></i></a></li>
+        <li><a id="scroll-bot" href="javascript:;" class="nav-link"><i class="fas fa-arrow-down"></i></a></li>
+      </ul> -->
+     
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        {% if url_forum in request.path %}
+        <li><a id="scroll-top" href="javascript:;" class="nav-link"><i class="fas fa-arrow-up"></i></a></li>
+        <li class="me-1"><a id="scroll-bot" href="javascript:;" class="nav-link"><i class="fas fa-arrow-down"></i></a></li>
+        {% endif %}
         {% if request.user.is_authenticated %}
         {% url 'authentication:user-profile' as url_user_profile %}
         <li>

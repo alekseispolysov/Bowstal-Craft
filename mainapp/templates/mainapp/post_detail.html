@@ -33,7 +33,7 @@
 				Comments ({{ comments.count }})
 				<hr>
 
-				{% for comment in comments %}
+				{% for comment in comments reversed %}
 				<div class="comment">
 					<div class="">
 						<a href="{% url 'authentication:user-view-profile' comment.user.id %}"><img class="comment-image" src="{{comment.user.user_profile.profile_picture.url}}" alt="Profile Image"></a>
