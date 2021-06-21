@@ -41,12 +41,16 @@ class ForumIndexPage(generic.ListView):
 		#qs = sorted(queryset_chain)
 
 		self.myFilter = ForumFilter(self.request.GET, queryset=posts)
-		queryset = self.myFilter.qs
+		# здесь прибавить important посты (если топика импортант)
+		
+		# print(self.important_post)
+		queryset = self.myFilter.qs 
 		return queryset
 
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
 		ctx['myFilter'] = self.myFilter
+		ctx['importantObjects'] = ForumPost.objects.all().filter(topic__icontains="Important")
 		return ctx
 
 
@@ -110,13 +114,23 @@ class fullSearch(View):
 		author = request.POST['author']
 		topic = request.POST['topic']
 		tags = request.POST['tags']
+
+		# logic for parsing tags by comma
+
+		tags_individual = tags.split(',')
+
+		tags_url = ''
+		for i in range(len(tags_individual)):
+			tags_url += f'&tags={tags_individual[i]}'
+
+
 		reputation = request.POST['reputation']
 		contains = request.POST['contains']
 		date_after = request.POST['date_after']
 		date_before = request.POST['date_before']
 
 		# construct url
-		url = f'/forum/?id={iD}&name={name}&user__username={author}&topic={topic}&tags={tags}&text={contains}&start_date={date_after}&end_date={date_before}'
+		url = f'/forum/?id={iD}&name={name}&user__username={author}&topic={topic}{tags_url}&text={contains}&start_date={date_after}&end_date={date_before}'
 		# redirect
 		return redirect(url)
 

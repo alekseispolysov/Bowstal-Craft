@@ -4,23 +4,34 @@
 {% block content %}
 
 <article>
-	<div class="row">
+	<div class="row container-fluid">
 		<div class="col-md-9 mt-3 mb-3">
 
 			<div class="card card-body post forum-post-image">
 				<hr>
-				<h2 class="text-primary text-center">{{object.name}}</h2>
+				{% if object.topic == "Important" %}
+				<h2 class="text-danger text-center bg-light">{{object.name}}</h2>
+				{% else %}
+				<h2 class="text-primary text-center bg-light">{{object.name}}</h2>
+				{% endif %}
 				<hr>
-				<p>Topic: {{object.topic}}</p>
-				<p>Tags: 
+				<p class="bg-light">Topic: {{object.topic}}</p>
+				<p class="bg-light">Tags: 
 					<ul>
 				        {% for tag in object.tags.all %}
 				            <li class="tag"> {{ tag.name }} </li>
 				        {% endfor %}
         			</ul>
     			</p>
-				{{object.content|safe}}
+
+    			<hr>
+    			
+    				{{object.content|safe}}
+    			
 				
+				
+				<hr>
+
 				{% if request.user.id == object.user.id or request.user.is_staff %}
 				
 					<a class="btn btn-dark btn-sm" href="{% url 'forum:forum-update-post' object.id %}">Edit post</a>
