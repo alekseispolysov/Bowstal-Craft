@@ -85,9 +85,9 @@
 	</div>
 
 
-	{% if b in request.path %}
+	<!-- {% if b in request.path %}
     hello world!
-{% endif %}
+{% endif %} -->
 	
 	<!-- important topics forum table -->
 	<!-- fix url  
@@ -124,7 +124,7 @@
 				<tr class="clickable-row text-danger" data-href="{% url 'forum:forum-detail-page' important_post.id %}">
 				  	<td scope="col" class="text-center"><a class="text-danger" href="{% url 'forum:forum-detail-page' important_post.id %}">{{ important_post.id }}</a></td>
 				  	<td scope="col" class="text-center">{{ important_post.topic }}</td>
-				  	<td scope="col" class="text-center"><a class="text-danger" href="{% url 'forum:forum-detail-page' important_post.name %}">{{ important_post.name }}</a></td>
+				  	<td scope="col" class="text-center"><a class="text-danger" href="{% url 'forum:forum-detail-page' important_post.id %}">{{ important_post.name }}</a></td>
 				  	<td scope="col" class="text-center">
 					  	<ul class="text-center">
 					        {% for tag in important_post.tags.all %}
@@ -135,7 +135,7 @@
 				  	<td scope="col" class="text-center"><a href="{% url 'authentication:user-view-profile' important_post.user.id %}"><img class="profile-pic-small" src="{{ important_post.user.user_profile.profile_picture.url }}"><br>{{ important_post.user.username }}</a></td>
 				  	<td scope="col" class="text-center">{{ important_post.post_comment.all|length }}</td>
 				  	<td scope="col" class="text-center">{{ important_post.date_created }}</td>
-				  	<td scope="col" class="text-center">-_-_-_-</td>
+				  	<td scope="col" class="text-center">{{ important_post.post_reputation }}</td>
 				  	
 				  	{% if request.user.is_staff %}
 			      	
@@ -196,7 +196,7 @@
 			      <td class="text-center"><a href="{% url 'authentication:user-view-profile' forum_post.user.id %}"><img class="profile-pic-small" src="{{ forum_post.user.user_profile.profile_picture.url }}"><br>{{ forum_post.user.username }}</a></td>
 			      <td class="text-center">{{ forum_post.post_comment.all|length }}</td>
 			      <td class="text-center">{{ forum_post.date_created }}</td>
-			      <td class="text-center">-_-_-_-</td>
+			      <td class="text-center">{{ forum_post.post_reputation }}</td>
 			      {% if request.user.is_staff or request.user == forum_post.user.username %}
 			      <td class="text-center"><a href="{% url 'forum:forum-update-post' forum_post.id %}" class="btn btn-warning btn-sm">Update</a></td>
 			      <td class="text-center"><a href="{% url 'forum:forum-delete-post' forum_post.id %}" class="btn btn-danger btn-sm">Delete</a></td>

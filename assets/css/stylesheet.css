@@ -422,3 +422,9 @@ main.main{
 .django-ckeditor-widget {
   width: 100%;
 }
+
+
+/* pointer cursor for images */
+.cursor-pointer{
+  cursor: pointer;
+}

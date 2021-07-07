@@ -21,7 +21,7 @@
 
 <!-- include pageination -->
 {% url 'mainapp:news-page' as url_news %}
-{% if request.get_full_path == url_news %}
+{% if request.path == url_news %}
 {% include 'mainapp/pagination.html' %}
 {% endif %}
 {% endblock %}

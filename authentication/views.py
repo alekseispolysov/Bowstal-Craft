@@ -58,10 +58,45 @@ class RegistrationPage(View):
 class UserProfile(LoginRequiredMixin, View):
 	def get(self, request):
 		user = User.objects.get(pk=request.user.id)
+		user_profile = request.user.user_profile
+		form1 = UserProfileForm(instance=user)
+		form2 = ProfileUserForm(instance=user_profile)
 		ctx = {
 		'user':user,
+		'form1':form1,
+		'form2':form2,
 		}
 		return render(request, 'authentication/user_profile.html', ctx)
+
+	def post(self, request):
+		user_profile = request.user.user_profile
+		user = User.objects.get(pk=request.user.id)
+		form1 = UserProfileForm(request.POST, instance=user)
+		form2 = ProfileUserForm(request.POST, request.FILES, instance=user_profile)
+
+		if form1.is_valid() and form2.is_valid():
+			form1.save()
+			form2.save()
+			return redirect('authentication:user-profile')
+		else:
+			ctx = {
+			'form1':form1,
+			'form2':form2,
+			}
+			return render(request, 'authentication/user_profile.html', ctx)
+
+
+	# customer = request.user.customer
+	# form = CustomerForm(instance=customer)
+	# if request.method == 'POST':
+	# 	form = CustomerForm(request.POST, request.FILES, instance=customer)
+	# 	if form.is_valid():
+	# 		form.save()
+	# 		return redirect('user-page')
+	# ctx = {
+	# 'form':form,
+	# }
+	# return render(request, 'accounts/account_settings.html', ctx)
 
 
 class ViewProfilePage(View):

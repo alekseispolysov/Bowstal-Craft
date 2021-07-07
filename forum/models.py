@@ -30,6 +30,9 @@ class ForumPost(models.Model):
 	
 	content = RichTextUploadingField(null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+	post_reputation = models.IntegerField(default=0)
+	people_voted = models.IntegerField(default=0)
 	#text = models.CharField(max_length=1200, null=True, blank=True)
 	# this line shows the owner of this field
 	# owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
@@ -41,15 +44,21 @@ class ForumPost(models.Model):
 class CommentToPost(models.Model):
 	user = models.ForeignKey(User, related_name="user_comment", blank=True, null=True, on_delete=models.CASCADE)
 	post = models.ForeignKey(ForumPost, related_name="post_comment", blank=True, null=True, on_delete=models.CASCADE)
-	content = RichTextUploadingField(null=True)
+	text = models.TextField(null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
-	citation = models.ForeignKey('self', related_name="citation_comment", blank=True, null=True, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.post.name + ' ' + self.user.username + ' ' + str(self.date_created) 
 
 
+class Reputation_post(models.Model):
 
+	user = models.ForeignKey(User, related_name="reputation_to_Usermodel", on_delete=models.CASCADE)
+	post = models.ForeignKey(ForumPost, related_name="reputation_to_ForumPost", on_delete=models.CASCADE)
+	reputation = models.IntegerField(default=0)
+
+	def __str__(self):
+		return self.post.name + ' | ' + self.user.username + ' | ' + str(self.reputation)
 
 # tagging model etc.
 

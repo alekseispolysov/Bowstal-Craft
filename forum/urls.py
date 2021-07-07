@@ -13,6 +13,7 @@ urlpatterns = [
 	path('delete/<str:pk>/', views.DeleteForumPost.as_view(), name="forum-delete-post"),
 	path('post/<str:pk>/', views.DetailForumPage.as_view(), name='forum-detail-page'),
 	path('search/', views.fullSearch.as_view(), name='forum-search'),
+	path('post/<str:pk>/ajax/', views.DetailForumPostPageAjax.as_view()),
 ]
 
 

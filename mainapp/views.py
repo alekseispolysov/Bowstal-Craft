@@ -7,6 +7,7 @@ from django.views import View
 
 from . models import *
 from . forms import *
+from . filters import *
 
 # detail view of the post
 class PostDetailPage(View):
@@ -54,13 +55,46 @@ class HomePage(View):
 # newspage
 class NewsPage(generic.ListView):
 	template_name = 'mainapp/home.html'
-	paginate_by = 10
+	paginate_by = 5
 	model = Post
+
+	def get_queryset(self):
+		self.news_count = Post.objects.all().count()
+		queryset = super(NewsPage, self).get_queryset()
+		# reverse queryset
+		return queryset[::-1]
+
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		ctx['news_count'] = self.news_count
+		# ctx['importantObjects'] = ForumPost.objects.all().filter(topic__icontains="Important")
+		return ctx
 
 
 class NewsAllPage(generic.ListView):
 	template_name = 'mainapp/news_all.html'
 	model = Post
+	def get_queryset(self):
+		news = Post.objects.all()
+		# filter all usernames
+		queryset = super(NewsAllPage, self).get_queryset()
+
+		
+
+		#qs = sorted(queryset_chain)
+
+		self.myFilter = newsFilter(self.request.GET, queryset=news)
+		# здесь прибавить important посты (если топика импортант)
+		
+		# print(self.important_post)
+		queryset = self.myFilter.qs 
+		return queryset
+
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		ctx['myFilter'] = self.myFilter
+		# ctx['importantObjects'] = ForumPost.objects.all().filter(topic__icontains="Important")
+		return ctx
 
 
 # about page

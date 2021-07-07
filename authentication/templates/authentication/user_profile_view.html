@@ -21,8 +21,12 @@
 			</div>
 			<div class="col-sm-8 mx-auto mt-2 pb-3 border article-system-bg-white">
 				
-				<h2 class="text-primary text-center">{{user_object.username}}</h2>
+				<h2 class="pt-2 text-primary text-center">{% if user_object.is_staff %}<i class="fas text-warning fa-crown"></i> {% endif %}{{user_object.username}}{% if user_object.is_staff %}<i class="fas text-warning fa-crown ms-2"></i> {% endif %}</h2>
 				<hr>
+				<h4 class="text-info mb-3">Basic information <i class="fas fa-info-circle"></i></h4>
+				<p>Nickname: {{user_object.username}}</p>
+				<p>Firstname: {{user_object.first_name}}</p>
+				<p>Lastname: {{user_object.last_name}}</p>
 				<p>Reputation: {{user_object.user_profile.reputation}}</p>
 				<p>Description</p>
 				<p>{{user_object.user_profile.description}}</p>

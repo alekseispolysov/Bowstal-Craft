@@ -37,6 +37,7 @@ class ContactEmail(models.Model):
 class SecurityEmailMessage(models.Model):
 	CATEGORY = (
 		('Bug on website', 'Bug on website'),
+		('Violation', 'Violation'),
 		('Suggestions', 'Suggestions'),
 		('Help', 'Help'),
 		('Bug on server','Bug on server'),

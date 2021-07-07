@@ -29,6 +29,39 @@ class AuthenticationForm(AuthenticationForm):
 		# username = forms.CharField(label='Email')
 
 
+class UserProfileForm(ModelForm):
+	class Meta:
+		model = User
+		# fields = '__all__'
+		fields = ['username', 'first_name', 'last_name']
+		# exclude = ['email', 'password', 'groups', 'user_permissions', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined']
+
+
+class ProfileUserForm(ModelForm):
+	# username = forms.CharField(label='Your Username (Nickname)', max_length=100)
+
+	class Meta:
+		model = User_Profile
+		fields = '__all__'
+		exclude = ['user', 'reputation', 'opinion_posts']
+
+	
+	# вытащить всё что нужно из user модели, использовать уже готовую модель user_profile
+
+	# что я могу хранить в user model?
+	# username, firstname, lastname, email, is_staff, is_super, date_joined
+	# I need create gender, date of birth in user_profile model
+
+	# name = forms.CharField(label='Your name', max_length=100)
+	# lastname = forms.CharField(label='Your lastname', max_length=100)
+	# date_of_birth = forms.CharField(label='Your lastname', max_length=100)
+	# gender = forms.CharField(label='Gender', max_length=100)
+	# profile_pic = models.ImageField(default="profile_thing.png", null=True, blank=True)
+
+
+
+
+
 # class AuthenticationForm(AuthenticationForm):
 
 #     class Meta:

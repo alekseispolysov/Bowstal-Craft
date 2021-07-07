@@ -1,11 +1,12 @@
 {% load static from static %}
 <div class="col-md-6">
-	{% for post in object_list reversed %}
+	{% for post in object_list %}
 	<div class="card card-body post">
 		<h2>
 			{{ post.name }}
 		</h2>
-		<a href="{% url 'mainapp:post-detail' post.id %}"><img class="img-fluid" src="{{ post.preview_picture.url }}"></a>
+		<!-- <a href="{% url 'mainapp:post-detail' post.id %}" style="display: inline-block;"><img class="img-fluid" src="{{ post.preview_picture.url }}"></a> -->
+		<img onclick="window.location='{% url 'mainapp:post-detail' post.id %}'" class="img-fluid cursor-pointer" src="{{ post.preview_picture.url }}">
 		<p>
 			{{ post.preview_text }}
 		</p>

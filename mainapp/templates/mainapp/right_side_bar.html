@@ -2,17 +2,17 @@
 	<div class="card card-body phone-hide sticky-sidebar">
 		<h2>Sidebar</h2>
 		<hr>
-			<h6 class="text-center">Account management</h6>
-			<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-			{% if user.is_authenticated %}
-			User: {{ user.get_username }}
-			<a href="{% url 'authentication:user-profile' %}" class="btn btn-primary">Account Preferences</a>
-			<a  href="{% url 'authentication:logout'%}" class="btn btn-primary">Logout</a>
-			{% else %}  
-			  <a href="{% url 'authentication:login'%}" class="btn btn-primary">Login</a>
-			  <a href="{% url 'authentication:register-new-user-page' %}" class="btn btn-primary">Register</a>
-			  <a href="{% url 'authentication:reset_password' %}" class="btn btn-primary">Reset password</a>
-			{% endif %}
+			<div class="btn-group d-grid" role="group" aria-label="Right side bar user management">
+				<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+				{% if user.is_authenticated %}
+				<button class="btn btn-dark" disabled>User: {{ user.get_username }} <i class="fas fa-user ms-1"></i></button>
+				<a href="{% url 'authentication:user-profile' %}" class="btn btn-primary">Account Preferences<i class="fas fa-cog ms-1"></i></a>
+				<a  href="{% url 'authentication:logout'%}" class="btn btn-primary">Logout<i class="fas fa-sign-out-alt ms-1"></i></a>
+				{% else %}  
+				  <a href="{% url 'authentication:login'%}" class="btn btn-primary">Login</a>
+				  <a href="{% url 'authentication:register-new-user-page' %}" class="btn btn-primary">Register</a>
+				{% endif %}
+				</div>
 			</div>
 		<!-- <ul>
 			<h6>Account management</h3>
@@ -26,9 +26,12 @@
 			{% endif %}
 		</ul> -->
 		<hr>
-		
+		<div class="btn-group d-grid" role="group" aria-label="Basic example">
+		<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
 		<a id="scroll-top" class="btn btn-info" href="javascript:;"><i class="fas fa-arrow-up"></i></a>
 		<a id="scroll-bot" class="btn btn-info" href="javascript:;"><i class="fas fa-arrow-down"></i></a>
+		</div>
+		</div>
 		{% if messages %}
 		<hr>
 		{% for message in messages %}
@@ -42,7 +45,12 @@
 
 		{% if request.user.is_staff %}
 		<hr>
-		<a class="btn btn-danger" href="{% url 'admin:index' %}">Admin panel</a>
+		<div class="btn-group d-grid" role="group" aria-label="Admin panel">
+		<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+		
+		<a class="btn btn-danger" href="{% url 'admin:index' %}">Admin panel <i class="fas fa-tools ms-1"></i></a>
+		</div>
+		</div>
 		{% endif %}
 	</div>
 </div>

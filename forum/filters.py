@@ -22,6 +22,10 @@ class ForumFilter(django_filters.FilterSet):
 	tags = CharFilter(label="Tags", field_name='tags', lookup_expr='slug__icontains', widget=TextInput(attrs={'placeholder':'Tags'}))
 	text = CharFilter(label="Text Contains", field_name='text', lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Text contains'}))
 
+	lessrating = NumberFilter(label="Rating", field_name='post_reputation', lookup_expr='lte')
+	rating = NumberFilter(label="Rating", field_name='post_reputation', lookup_expr='exact')
+	greatrating = NumberFilter(label="Rating", field_name='post_reputation', lookup_expr='gte')
+
 	start_date = DateFilter(field_name="date_created", lookup_expr='gte')
 	end_date = DateFilter(field_name="date_created", lookup_expr='lte')
 

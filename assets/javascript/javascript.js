@@ -41,6 +41,8 @@ $(".clickable-row").click(function() {
     });
 
 
+
+
 // if($(".django-ckeditor-widget")[0] !== undefined){
 //   $(".django-ckeditor-widget").attr("display", "block");
 //   CKEDITOR.on("instanceReady", function(event) {
@@ -87,7 +89,77 @@ $(".clickable-row").click(function() {
 
 });
 
+// I will throw in request.user, so onlike function needs to take something inside, to be able to work
+function onPostThumbs(user_id, post_id, user_action){
+  
 
+    let csrftoken = $.cookie('csrftoken');
+
+    // let user_id = user_ref;
+    // let post_id = post_id;
+    // let user_action = action;
+    let data = {user_id, post_id, user_action};
+
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+            }
+
+        }
+    });
+
+    $.ajax({
+      url: `ajax/`,
+      data: data,
+      type: 'post',
+      success: function(result)
+      {
+        // do something if request is successeful
+
+        $('#people_voted_counter').text(result.people_voted);
+        $('#repa').text(result.reputation)
+        // $('#repa').text(result.reputation);
+        // $('#people_voted_counter').text(result.people_voted);
+        console.log("success!")
+        console.log(result.current_relation_reputation)
+        if(result.current_relation_reputation == 1){
+
+          // change green icon class to bold
+          // change red icon class to not bold
+          $('#like').removeClass('far').addClass('fas');
+          $('#dislike').removeClass('fas').addClass('far')
+        }
+        else if(result.current_relation_reputation == -1){
+          // change green icon class to not bold
+          // change red icon class to bold
+          $('#like').removeClass('fas').addClass('far');
+          $('#dislike').removeClass('far').addClass('fas')
+        }
+        else{
+          // change both icons to not bold class
+          $('#like').removeClass('fas').addClass('far');
+          $('#dislike').removeClass('fas').addClass('far')
+
+
+        }
+
+      }
+});
+
+    // logika before ajax
+    
+
+
+  
+}
 
 
 // sticky-sidebar class, property top: ()px;
