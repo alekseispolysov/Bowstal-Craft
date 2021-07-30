@@ -22,6 +22,9 @@ let all_sticky_sidebars;
       }, // second param is how many time, does it need to scroll down
         1000);
     }
+
+$(".is-invalid").nextAll("#error_1_id_start_date").first().attr("background-image", '0');
+console.log('this line has worked');
 // scrolling top function
 $("#scroll-top").click(function(){
   $("html, body")[0].scrollIntoView({

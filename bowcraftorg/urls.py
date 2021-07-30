@@ -34,6 +34,7 @@ router.register(r'todos', views.TodoView, 'todo')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin/', include('django_admin_filter.urls')),
     path('', include('mainapp.urls')),
     path('user/', include('authentication.urls')),
     path('forum/', include('forum.urls')),

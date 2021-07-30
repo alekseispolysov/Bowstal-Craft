@@ -8,8 +8,12 @@
 	<div class="col-md-6">
 		<div class="card card-body post">
 			<div class="card-text">
-				<h2 class="text-primary float-start mt-2 mb-3">{{ post.name }}</h2><i class="float-end mt-3">Posted: {{ post.date_created }}</i>
-				<img class="img-fluid" src="{{ post.preview_picture.url }}">
+				<div class="overflow-hidden">
+				<h2 class="text-primary float-start mt-2 mb-3 d-block w-50">{{ post.name }}</h2><i class="float-end mt-3">Posted: {{ post.date_created }}</i>
+				</div>
+				<div class="w-100 justify-content-center d-flex">
+				<img class="text-center img-fluid" src="{{ post.preview_picture.url }}">
+				</div>
 				<hr>
 				<p>
 				{{ post.text|safe }}

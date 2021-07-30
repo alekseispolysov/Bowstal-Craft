@@ -428,3 +428,16 @@ main.main{
 .cursor-pointer{
   cursor: pointer;
 }
+
+/* error fixes news all */
+/*.invalid-feedback{
+  display: none !important;
+}*/
+
+#error_1_id_start_date{
+  display: none !important;
+}
+
+#error_1_id_end_date{
+  display: none !important;
+}

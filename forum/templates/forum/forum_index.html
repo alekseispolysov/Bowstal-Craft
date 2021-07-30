@@ -139,8 +139,8 @@
 				  	
 				  	{% if request.user.is_staff %}
 			      	
-			      	<td class="text-center"><a href="{% url 'forum:forum-update-post' important_post.id %}" class="btn btn-warning btn-sm">Update</a></td>
-			      	<td class="text-center"><a href="{% url 'forum:forum-delete-post' important_post.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+			      	<td scope="col" class="text-center"><a href="{% url 'forum:forum-update-post' important_post.id %}" class="btn btn-warning btn-sm">Update</a></td>
+			      	<td scope="col" class="text-center"><a href="{% url 'forum:forum-delete-post' important_post.id %}" class="btn btn-danger btn-sm">Delete</a></td>
 			      
 			      {% endif %}
 			  	</tr>
@@ -181,11 +181,11 @@
 
 			    <tr class="clickable-row" data-href="{% url 'forum:forum-detail-page' forum_post.id %}">
 			      
-			      <td class="text-center"><a href="{% url 'forum:forum-detail-page' forum_post.id %}">{{ forum_post.id }}</a></th>
-			      <td class="text-center">{{ forum_post.topic }}</td>
-			      <td class="text-center"><a href="{% url 'forum:forum-detail-page' forum_post.id %}">{{ forum_post.name }}</a></td>
+			      <td scope="col" class="text-center"><a href="{% url 'forum:forum-detail-page' forum_post.id %}">{{ forum_post.id }}</a></th>
+			      <td scope="col" class="text-center">{{ forum_post.topic }}</td>
+			      <td scope="col" class="text-center"><a href="{% url 'forum:forum-detail-page' forum_post.id %}">{{ forum_post.name }}</a></td>
 
-			      <td>
+			      <td scope="col" class="text-center">
 			      	<ul class="text-center">
 				        {% for tag in forum_post.tags.all %}
 				           <li class="tag"> {{ tag.name }} </li>
@@ -193,13 +193,13 @@
         			</ul>
 			      </td>
 
-			      <td class="text-center"><a href="{% url 'authentication:user-view-profile' forum_post.user.id %}"><img class="profile-pic-small" src="{{ forum_post.user.user_profile.profile_picture.url }}"><br>{{ forum_post.user.username }}</a></td>
-			      <td class="text-center">{{ forum_post.post_comment.all|length }}</td>
-			      <td class="text-center">{{ forum_post.date_created }}</td>
-			      <td class="text-center">{{ forum_post.post_reputation }}</td>
+			      <td scope="col" class="text-center"><a href="{% url 'authentication:user-view-profile' forum_post.user.id %}"><img class="profile-pic-small" src="{{ forum_post.user.user_profile.profile_picture.url }}"><br>{{ forum_post.user.username }}</a></td>
+			      <td scope="col" class="text-center">{{ forum_post.post_comment.all|length }}</td>
+			      <td scope="col" class="text-center">{{ forum_post.date_created }}</td>
+			      <td scope="col" class="text-center">{{ forum_post.post_reputation }}</td>
 			      {% if request.user.is_staff or request.user == forum_post.user.username %}
-			      <td class="text-center"><a href="{% url 'forum:forum-update-post' forum_post.id %}" class="btn btn-warning btn-sm">Update</a></td>
-			      <td class="text-center"><a href="{% url 'forum:forum-delete-post' forum_post.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+			      <td scope="col" class="text-center"><a href="{% url 'forum:forum-update-post' forum_post.id %}" class="btn btn-warning btn-sm">Update</a></td>
+			      <td scope="col" class="text-center"><a href="{% url 'forum:forum-delete-post' forum_post.id %}" class="btn btn-danger btn-sm">Delete</a></td>
 			      {% endif %}
 			    </tr>
 			    {% empty %}

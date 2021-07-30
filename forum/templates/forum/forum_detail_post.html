@@ -38,7 +38,6 @@
     				<a class="btn btn-primary me-2" href="{% url 'mainapp:secutiry-report-bug' %}"><i class="fas fa-exclamation"></i></a>
     				<button class="btn btn-success d-inline text-nowrap" onclick="onPostThumbs('{{request.user.id}}', '{{post.id}}', 'like')"><i id="like" class="{% if relation_value <= 0 %}far{% else %}fas{% endif %} fa-thumbs-up"></i></button>
     				<button class="btn btn-danger d-inline text-nowrap" onclick="onPostThumbs('{{request.user.id}}', '{{post.id}}', 'dislike')"><i id="dislike" class="{% if relation_value >= 0 %}far{% else %}fas{% endif %} fa-thumbs-down"></i></button>
-    			
     			</div>
     			</div>
     			{% else %}

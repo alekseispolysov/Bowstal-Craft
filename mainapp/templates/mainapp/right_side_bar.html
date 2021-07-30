@@ -9,8 +9,8 @@
 				<a href="{% url 'authentication:user-profile' %}" class="btn btn-primary">Account Preferences<i class="fas fa-cog ms-1"></i></a>
 				<a  href="{% url 'authentication:logout'%}" class="btn btn-primary">Logout<i class="fas fa-sign-out-alt ms-1"></i></a>
 				{% else %}  
-				  <a href="{% url 'authentication:login'%}" class="btn btn-primary">Login</a>
-				  <a href="{% url 'authentication:register-new-user-page' %}" class="btn btn-primary">Register</a>
+				   <a href="{% url 'authentication:register-new-user-page' %}?next={{request.path}}" class="btn btn-success">Sign up <i class="fas fa-user-plus ms-1"></i></a>
+				  <a href="{% url 'authentication:login'%}?next={{request.path}}" class="btn btn-primary">Login <i class="fas fa-sign-in-alt ms-1"></i></a>
 				{% endif %}
 				</div>
 			</div>

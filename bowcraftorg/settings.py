@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 
     # installed in process
 
-    'corsheaders',
+    'corsheaders', # rest framework features
     'rest_framework',
 
     'crispy_forms', # for crispy forms
@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'taggit', # for tags db working
     'django_filters', # filters stuff
     'bootstrapform', # bootstrap styling
-    'captcha',
+    'django_admin_filter', # admin filters automatic
+    'captcha', # captcha app
 
 
     # my apps
@@ -250,3 +251,28 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
+
+
+
+
+# admin filter
+ADMIN_FILTER_HISTORY_LIMIT = 3
+ADMIN_FILTER_TRUNCATE_HISTORY = True
+ADMIN_FILTER_URL_PATH = 'filter/'
+
+
+
+# chache
+
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
+
+
+
+
