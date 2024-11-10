@@ -11,23 +11,17 @@ from django.contrib.auth.signals import user_logged_in
 
 from . models import *
 
-
+# After we creating user, we create his profile
 
 # after we create user, we create a profile for him
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
 	if created:
-		#my_group = Group.objects.get(name='default')
 		instance = get_object_or_404(User, username=instance.username)
 		user_profile = User_Profile(user=instance)
 		user_profile.save()
-		#my_group.user_set.add(instance.id)
-		print('Profile created!')
-
-
 
 # success login message
-
 def logged_in_message(sender, user, request, **kwargs):
 	"""
 	Add a welcome message when the user logs in

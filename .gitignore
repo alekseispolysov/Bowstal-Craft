@@ -1,7 +1,5 @@
-
-
+.env
 *awesomefonts/
 *.sqlite3
 *__pycache__/
 *__init__.py
-

@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import ModelForm
 from captcha.fields import CaptchaField
-#from django.forms.models import modelformset_factory
 from . models import *
 
+# This file contains 3 form four our tables for: comment for news, contact e-mail table and report message  
 
 class CommentToPostForm(ModelForm):
 	text = forms.CharField(widget=forms.Textarea, label='')

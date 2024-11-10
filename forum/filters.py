@@ -4,15 +4,17 @@ from taggit.managers import TaggableManager
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from django.forms.widgets import TextInput
+from django_ckeditor_5.fields import CKEditor5Field  # Ensure this is a valid import
+
 
 
 from . models import *
 
+# On forum we have filters to be able to filter posts, that we like to see.
+# this code is responsible for basic funcitonality of filter
+
 class ForumFilter(django_filters.FilterSet):
 
-	#Date_from = DateFilter(field_name="date_created", lookup_expr='gte')
-	#Date_before = DateFilter(field_name="date_created", lookup_expr='lte')
-	#text = CharFilter(field_name='text', lookup_expr='icontains')
 	id = NumberFilter(label="ID", field_name='id', lookup_expr='exact')
 	name = CharFilter(label="Name", field_name='name', lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Name'}))
 	user_username = CharFilter(label="Author", field_name='user__username',lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Author'}))
@@ -29,19 +31,7 @@ class ForumFilter(django_filters.FilterSet):
 	start_date = DateFilter(field_name="date_created", lookup_expr='gte')
 	end_date = DateFilter(field_name="date_created", lookup_expr='lte')
 
-	# class Meta:
-	# 	model = ForumPost
-	# 	# exclude user filed, instead write it before you are filtering
-	# 	fields = {
-	# 	'name': ['icontains'],
-	# 	}
-		
-# class AdvancedForumFilter(django_filters.FilterSet):
-# 	name = CharFilter(label="Name", field_name='ForumPost__name', lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Name'}))
-# 	user_username = CharFilter(label="Author", field_name='user__username',lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Author'}))
-		
-
-
+# This is advanced forum filter form
 
 class ForumAdvancedFilter(django_filters.FilterSet):
 	user_username = CharFilter(label="Author", field_name='user__username',lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Author'}))
@@ -50,4 +40,8 @@ class ForumAdvancedFilter(django_filters.FilterSet):
 		fields = '__all__'
 		filter_overrides = {
             TaggableManager: {'filter_class': CharFilter},
+            CKEditor5Field: {
+                'filter_class': CharFilter,  # Use CharFilter for CKEditor5Field
+                'lookup_expr': 'icontains',  # You can change the lookup expression if needed
+            },
         }

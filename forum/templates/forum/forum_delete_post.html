@@ -7,8 +7,6 @@
 			<form method="POST" action="">
 				{% csrf_token %}
 
-				<!-- <input type="hidden" name="user" value="{{ request.user }}"> -->
-
 				<p>Are you sure that you wanna to delete this post?</p>
 
 				<a class="btn btn-warning" href="{{request.META.HTTP_REFERER}}">Cancel</a>

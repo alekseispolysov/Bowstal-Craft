@@ -1,17 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
+
+# from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
 from django.conf import settings
 
-# importing tags
-# from tagging.registry import register
 from taggit.managers import TaggableManager
 
-
-# Create your models here.
-# db of forum
-# there is 
+# This file contains database for our forum post and comments to our posts. As well there are functionality for reputation
 
 class ForumPost(models.Model):
 	CATEGORY = (
@@ -28,15 +24,10 @@ class ForumPost(models.Model):
 	topic = models.CharField(max_length=100, null=True, choices=CATEGORY)
 	tags = TaggableManager(blank=True)
 	
-	content = RichTextUploadingField(null=True)
+	content = CKEditor5Field(null=True, blank=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
-
 	post_reputation = models.IntegerField(default=0)
 	people_voted = models.IntegerField(default=0)
-	#text = models.CharField(max_length=1200, null=True, blank=True)
-	# this line shows the owner of this field
-	# owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-	#messages = models.integer
 
 	def __str__(self):
 		return self.topic + ' ' + self.name 
@@ -48,7 +39,7 @@ class CommentToPost(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 	def __str__(self):
-		return self.post.name + ' ' + self.user.username + ' ' + str(self.date_created) 
+		return self.post.name + ' ' + self.user.username + ' ' + str(self.date_created) + ' ' + str(self.id)
 
 
 class Reputation_post(models.Model):
@@ -59,11 +50,3 @@ class Reputation_post(models.Model):
 
 	def __str__(self):
 		return self.post.name + ' | ' + self.user.username + ' | ' + str(self.reputation)
-
-# tagging model etc.
-
-# class TagWidget(models.Model):
-#     name = models.CharField(max_length=50)
-
-# register(TagWidget)
-

@@ -13,24 +13,42 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'tu_zi=0i2(5sj463+7c39=c31g^p_+vve22809z-(#(@6q7&&('
+# Create a new security key to your project and place it in .env file. It will be loaded here
+# if secrete key is not created, then default-secret key will be put in place
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'default-secret-key-if-not-found')
+
+
+# Security
+SESSION_COOKIE_HTTPONLY = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SAMESITE = 'Lax'  # or 'None' if using cross-site requests
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8080',  # Add your development URL here
+    'http://127.0.0.1:8080',  # You may also want to add this for localhost
+    # 'https://yourdomain.com',  # Add your production domain here if applicable
+]
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# CKEDITOR_BASEPATH = "/assets/ckeditor"
 
 # Application definition
 
@@ -41,18 +59,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-
-    # installed in process
-
+    # INSTALLED PLUGINS IN PROCESS
+    'crispy_bootstrap4', # crispy bootstrap
+    'django_ckeditor_5', # new version of django CK Editor
     'corsheaders', # rest framework features
     'rest_framework',
-
     'crispy_forms', # for crispy forms
     'extra_views', # for formset view generic
     'channels', # for chat(with websockets), channels
-    'ckeditor', # for richtextfield
-    'ckeditor_uploader', # for upload images through richtextfield
     'taggit', # for tags db working
     'django_filters', # filters stuff
     'bootstrapform', # bootstrap styling
@@ -60,19 +74,18 @@ INSTALLED_APPS = [
     'captcha', # captcha app
 
 
-    # my apps
-
+    # MY APPLICATIONS
     'mainapp.apps.MainappConfig',
     'forum.apps.ForumConfig',
-    'todo.apps.TodoConfig',
     'authentication.apps.AuthenticationConfig',
-    'chat.apps.ChatConfig',
+
 ]
 
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Insert here
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,12 +95,15 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+# STATIC STORAGE COPY THAT IF IT IS WORKS TO A OLD FILES
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 ROOT_URLCONF = 'bowcraftorg.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,7 +124,7 @@ WSGI_APPLICATION = 'bowcraftorg.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+# In this project SQLITE3 Database had been used
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -156,15 +172,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = (
 os.path.join(BASE_DIR, 'assets'),
 )
-
-MEDIA_URL = '/images/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 # crispy forms
@@ -179,31 +191,14 @@ LOGOUT_REDIRECT_URL = 'mainapp:news-page'
 # try that
 LOGIN_URL = 'authentication:login'
 
-# email setup
+# email setup (setup this only, when you want to make password reset feature work. Use env variables to do that)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'perematom@gmail.com'
-EMAIL_HOST_PASSWORD = 'bn3264ph bn3264ph'
-
-
-# ckedior settings
-
-CKEDITOR_UPLOAD_PATH = "uploads/"
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'width': 'auto',
-        'toolbar_Custom' : [
-        ['Bold', 'Italic', 'Underline', 'Strike', 'Link', 'Image']],
-        'height': '300px',
-    },
-}
-
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
+EMAIL_HOST_USER = 'abcd@gmail.com'
+EMAIL_HOST_PASSWORD = '123456'
 
 
 # tagging setting
@@ -245,15 +240,12 @@ ASGI_APPLICATION = 'bowcraftorg.asgi.application'
 
 # path to my login by email backend
 
-AUTHENTICATION_BACKENDS = ('authentication.backends.EmailBackend',)
+AUTHENTICATION_BACKENDS = ('authentication.backends.EmailBackend', 'django.contrib.auth.backends.ModelBackend',)
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
-
-
-
 
 # admin filter
 ADMIN_FILTER_HISTORY_LIMIT = 3
@@ -261,18 +253,102 @@ ADMIN_FILTER_TRUNCATE_HISTORY = True
 ADMIN_FILTER_URL_PATH = 'filter/'
 
 
+# ckeditor5 settings/
 
-# chache
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # Ensure this points to your actual media folder
 
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# Specify the storage class for file uploads
+CKEDITOR_5_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-#         'LOCATION': '127.0.0.1:11211',
-#     }
-# }
+customColorPalette = [
+        {
+            'color': 'hsl(4, 90%, 58%)',
+            'label': 'Red'
+        },
+        {
+            'color': 'hsl(340, 82%, 52%)',
+            'label': 'Pink'
+        },
+        {
+            'color': 'hsl(291, 64%, 42%)',
+            'label': 'Purple'
+        },
+        {
+            'color': 'hsl(262, 52%, 47%)',
+            'label': 'Deep Purple'
+        },
+        {
+            'color': 'hsl(231, 48%, 48%)',
+            'label': 'Indigo'
+        },
+        {
+            'color': 'hsl(207, 90%, 54%)',
+            'label': 'Blue'
+        },
+    ]
 
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
 
+    },
+    'extends': {
+        'blockToolbar': [
+            'paragraph', 'heading1', 'heading2', 'heading3',
+            '|',
+            'bulletedList', 'numberedList',
+            '|',
+            'blockQuote',
+        ],
+        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+        'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+                    'insertTable',],
+        'image': {
+            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
+                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
+            'styles': [
+                'full',
+                'side',
+                'alignLeft',
+                'alignRight',
+                'alignCenter',
+            ]
 
+        },
+        'table': {
+            'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
+            'tableProperties', 'tableCellProperties' ],
+            'tableProperties': {
+                'borderColors': customColorPalette,
+                'backgroundColors': customColorPalette
+            },
+            'tableCellProperties': {
+                'borderColors': customColorPalette,
+                'backgroundColors': customColorPalette
+            }
+        },
+        'heading' : {
+            'options': [
+                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
+                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+            ]
+        }
+    },
+    'list': {
+        'properties': {
+            'styles': 'true',
+            'startIndex': 'true',
+            'reversed': 'true',
+        }
+    }
+}
 
+# Define a constant in settings.py to specify file upload permissions
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "authenticated"  # Possible values: "staff", "authenticated", "any"

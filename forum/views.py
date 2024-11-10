@@ -19,12 +19,7 @@ from . forms import *
 from . owner import *
 from . filters import *
 
-
-# class ForumIndexPage(View):
-# 	def get(self, request):
-
-# 		return render(request, "forum/forum_index.html")
-
+# This view file contains functionality for all our forum app
 
 # protect delete and update views
 class ForumIndexPage(generic.ListView):
@@ -36,14 +31,7 @@ class ForumIndexPage(generic.ListView):
 		# filter all usernames
 		queryset = super(ForumIndexPage, self).get_queryset()
 
-		
-
-		#qs = sorted(queryset_chain)
-
 		self.myFilter = ForumFilter(self.request.GET, queryset=posts)
-		# здесь прибавить important посты (если топика импортант)
-		
-		# print(self.important_post)
 		queryset = self.myFilter.qs 
 		#  [::-1] = to reverse the queryset
 		return queryset[::-1]
@@ -77,7 +65,6 @@ class UpdateForumPost(OwnerUpdateView):
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs) # run data from generic view first, then append here something else
 		# going into super class
-		#ctx['crazy'] = 'CRAZY THING, COMPLETLY DUM'
 		return ctx
 
 # deleting post
@@ -88,9 +75,6 @@ class DeleteForumPost(OwnerDeleteView):
 
 # detail view of the post
 class DetailForumPage(View):
-	# template_name = 'forum/forum_detail_post.html'
-	# model = ForumPost
-
 	def getqueryrelation(self, request, post):
 		# function that is taking everything that repeating in it. It is checking if user has a query relation with post. If he liked or disliked that post
 		# also it checks, if user is authenticated
@@ -108,17 +92,8 @@ class DetailForumPage(View):
 	def get(self, request, pk):
 
 		post = get_object_or_404(ForumPost, id=pk)
-		#title = f"Details of {server.name}"
 		comments = CommentToPost.objects.all().filter(post_id=pk)
 		form = CommentToPostForm
-
-		# reputation thing, needs, if user is not authenticated, just not add this stuff overhere
-		# query_relation = Reputation_post.objects.filter(user=request.user).filter(post=post).first()
-		# if query_relation is None:
-		# 	relation_value = 0
-		# else:
-		# 	relation_value = query_relation.reputation
-
 		ctx = {
 		'post':post,
 		'form':form,
@@ -127,14 +102,8 @@ class DetailForumPage(View):
 		}
 
 		return render(request, 'forum/forum_detail_post.html', ctx)
+	# creating comment functionality
 	def post(self, request, pk):
-		
-		# query_relation = Reputation_post.objects.filter(user=request.user).filter(post=post).first()
-		# if query_relation is None:
-		# 	relation_value = 0
-		# else:
-		# 	relation_value = query_relation.reputation--------------------=-=-=-------------------------------------=-=--------------------------
-
 		if request.user.is_authenticated:
 			form = CommentToPostForm(request.POST)
 			if form.is_valid():
@@ -142,13 +111,10 @@ class DetailForumPage(View):
 				obj.user = request.user
 				obj.post = get_object_or_404(ForumPost, pk=pk)
 				obj.save()
-				print('saving!')
 				return redirect('forum:forum-detail-page', pk)
 			else:
-				print('redirecting...')
 				return render(request, 'forum/forum_detail_post.html', ctx)
 		else:
-			print("I'm buggy")
 			ctx = {
 			'post':post,
 			'form':form,
@@ -157,55 +123,25 @@ class DetailForumPage(View):
 			}
 			return render(request, 'forum/forum_detail_post.html', ctx)
 
-	# def ajax_post_preputation(self, request, pk):
-
-
-	# 	print(request.POST.data.user_action)
-
-	# 	data = {
-	# 	"something": request.POST.data.user_action 
-	# 	}
-
-	# 	return JsonResponse(data)
-
-class DetailForumPostPageAjax(View):
+# Ajax is here, because we need to set reputation for each post dynamicly
+# the logic for reputation holded by ajax
+class DetailForumPostPageAjax(LoginRequiredMixin, View):
 	def post(self, request, pk):
-		print(request.POST["user_action"])
-
 		# here I need to check if user is already has opinion with post_reputation
 
-		# get the user Entry.objects.get(pk=1)
 		cur_user = User.objects.get(pk=request.POST["user_id"])
-
-		# print(cur_user)
 		post = ForumPost.objects.get(pk=request.POST["post_id"])
-		# print(post)
 		user_action = request.POST["user_action"]
-		# print(user_action)
-
 		# after when I got everything, I need to check if the user_profile has relation with ForumPostObject, called opinion_posts
-
-		# if post in user.opinion_posts:
-		# 	print("yes")
-		# else:
-		# 	print("no")
 
 		if user_action == 'dislike':
 			reputation_temp = 1
 		else:
 			reputation_temp = -1
-
-		# юзер может не иметь никакого отношения к посту, тогда мы дожны создать это отношение + к тому определить, лайкнул он это пост или дизлайкнул, на основе этого
-		# записать популярность
-		# однако если отношение уже есть мы должны определить что юзер сделал, если он кликнул на противоположную кнопку, то мы меняем их местами
-		# в соответсвие с этим выписываем отношения, если юзер кликнул на одну и туже кнопку, то мы меняем её и выписываем 0 отношение к посту, при этом каждый раз,
-		# мы обновляем репутацию поста и тоже выслылаем её в response
-		# querytodbtofindopinionbasedonuseridandpostid
-		
 		query_relation = Reputation_post.objects.filter(user=cur_user).filter(post=post).first()
-
 		counter = 0
 
+		# check functionality for like and dislike buttons. Logic here are ment to check if user clicked same button two times and other scenarios
 
 		if query_relation == None:
 			if user_action == 'like':
@@ -214,7 +150,6 @@ class DetailForumPostPageAjax(View):
 				reputation_temp = -1
 			else:
 				reputation_temp = 0
-			print(reputation_temp)
 			new_relation = Reputation_post(user=cur_user, post=post, reputation=reputation_temp)
 			post.people_voted += 1
 			
@@ -222,13 +157,11 @@ class DetailForumPostPageAjax(View):
 			post.save()
 			new_relation.save()
 			query_relation = new_relation
-		# some logical erros overhere, many logical errors
 		else:
 			# so if reputation is greater then 0 we will check if
 			if query_relation.reputation > 0:
 				# it is like pressed, if so, undo the reputation and lover the people, that have been before
 				if user_action == 'like':
-					print("I'm right there")
 					query_relation.reputation += -1
 					counter = -1
 					post.people_voted += -1
@@ -236,7 +169,6 @@ class DetailForumPostPageAjax(View):
 				elif user_action == 'dislike':
 					query_relation.reputation += -2
 					counter = -2
-					print(query_relation.reputation)
 				else:
 				# else we do nothing
 					pass
@@ -255,9 +187,7 @@ class DetailForumPostPageAjax(View):
 				else:
 					pass
 			# if the relation exist and it is 0 and something have been pressed we will change reputation and do nothing with people, because they are counted up
-			#
 			else:
-				print("I'm here")
 				if user_action == 'like':
 					query_relation.reputation = 1
 					counter += 1
@@ -271,10 +201,9 @@ class DetailForumPostPageAjax(View):
 			post.post_reputation += counter
 			post.save()
 			query_relation.save()
-		# post.post_reputation += query_relation.reputation
 		
 
-		# сформировать объект json, который отправляю обратно
+		# Create json object, that we sending back
 
 		# I need to send something to dermine, which button should I show
 
@@ -287,26 +216,10 @@ class DetailForumPostPageAjax(View):
 		return JsonResponse(data)
 
 
-
-
-# class DetailForumPageAjax(View):
-# 	def post(self, request):
-# 		pass
-
-
-
 # new advanced search
 class fullSearch(View):
 	# generate page with get method
 	def get(self, request):
-		# myFilter = AdvancedForumFilter()
-		# ctx = {
-		# 'myFilter':myFilter,
-		# }
-
-
-
-
 		return render(request, 'forum/fullsearch.html')
 
 	def post(self, request):
@@ -317,7 +230,6 @@ class fullSearch(View):
 		author = request.POST['author']
 		topic = request.POST['topic']
 		tags = request.POST['tags']
-
 
 		# logic for parsing tags by comma
 
@@ -342,21 +254,21 @@ class fullSearch(View):
 		# redirect
 		return redirect(url)
 
-		# choices date_created, id, name, post_comment, tagged_items, tags, text, topic, user, user_id
-
-		# queryset =
-
-		# url = ?ForumPost__name=&
-
-		# get what info have been sended
-		# post_name = request.POST['']
-
-		# access database model and filter eveything what we need
-		# generate url for filter in forum filter view
-		# forum/
-		# redirect to that url
 		pass
 
+# delete, edit comment functionality
+# people protection functionality
+
+class EditCommentToPost(OwnerUpdateView):
+	template_name = 'forum/comment_edit_page.html'
+	model = CommentToPost
+	form_class = CommentToPostForm
+	success_url = reverse_lazy('forum:forum-index-page')
+
+class DeleteCommentToPost(OwnerDeleteView):
+	template_name = 'forum/comment_delete_page.html'
+	model = CommentToPost
+	success_url = reverse_lazy('forum:forum-index-page')
 
 
 

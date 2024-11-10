@@ -9,10 +9,7 @@
 	<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
 		{% url 'authentication:user-profile' as url_profile %}
 		<a class="btn btn-dark {% if request.path == url_profile %}disabled{% endif %}" type="button" href="{{ url_profile }}">General</a>
-			<button class="btn btn-dark" type="button">Security</button>
-			{% if request.user.is_staff %}
-			<button class="btn btn-dark" type="button">Email messages</button>
-			{% endif %}
+			
 			<a href="{% url 'authentication:user-view-profile' request.user.id %}" class="btn btn-dark">View Profile</a>
 			<a class="btn btn-warning" href="{% url 'authentication:logout' %}">Logout</a>
 

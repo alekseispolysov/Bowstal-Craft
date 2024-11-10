@@ -7,6 +7,8 @@ from django.urls import path, include
 
 app_name = 'authentication'
 
+# Urls for authentication app
+
 urlpatterns = [
 	path('register/', views.RegistrationPage.as_view(), name='register-new-user-page'),
 	path('login/',
@@ -32,8 +34,9 @@ urlpatterns = [
     	name="password_reset_complete"),	
 
 	path('profile/', views.UserProfile.as_view(), name='user-profile'),
-	#path('settings/', views.SettingsPage.as_view(), name='user-settings'),
 
 	path('profile/<str:pk>/', views.ViewProfilePage.as_view(), name='user-view-profile'),
+
+    path('profile/<str:pk>/ajax/', views.ViewProfilePageAJAX.as_view()),
 ]
 

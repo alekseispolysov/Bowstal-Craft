@@ -3,19 +3,20 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views import generic
 from django.views import View
-
+from django.http import Http404
 
 from . models import *
 from . forms import *
 from . filters import *
 
+# This file contains all logic for our news feed and mainapp
+# Views file
+
 # detail view of the post
 class PostDetailPage(View):
-	#login_url = '/user/login/'
 	def get(self, request, pk):
 
 		post = get_object_or_404(Post, id=pk)
-		#title = f"Details of {server.name}"
 		comments = CommentToPost.objects.all().filter(post_id=pk)
 		form = CommentToPostForm
 		ctx = {
@@ -32,22 +33,18 @@ class PostDetailPage(View):
 				obj.user = request.user
 				obj.post = get_object_or_404(Post, pk=pk)
 				obj.save()
-				print('saving!')
 				return redirect('mainapp:post-detail', pk)
 			else:
-				print('redirecting...')
 				return render(request, 'mainapp/post_detail.html', ctx)
 		else:
-			print("I'm buggy")
 			ctx = {
 			'post':post,
 			'form':form,
 			'comments':comments,
 			}
 			return render(request, 'mainapp/post_detail.html', ctx)
+
 # home page
-
-
 class HomePage(View):
 	def get(self, request):
 		return render(request, 'mainapp/home_page.html')
@@ -67,10 +64,9 @@ class NewsPage(generic.ListView):
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
 		ctx['news_count'] = self.news_count
-		# ctx['importantObjects'] = ForumPost.objects.all().filter(topic__icontains="Important")
 		return ctx
 
-
+# All news page
 class NewsAllPage(generic.ListView):
 	template_name = 'mainapp/news_all.html'
 	model = Post
@@ -79,21 +75,15 @@ class NewsAllPage(generic.ListView):
 		# filter all usernames
 		queryset = super(NewsAllPage, self).get_queryset()
 
-		
-
-		#qs = sorted(queryset_chain)
 
 		self.myFilter = newsFilter(self.request.GET, queryset=news)
-		# здесь прибавить important посты (если топика импортант)
 		
-		# print(self.important_post)
 		queryset = self.myFilter.qs 
 		return queryset
 
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
 		ctx['myFilter'] = self.myFilter
-		# ctx['importantObjects'] = ForumPost.objects.all().filter(topic__icontains="Important")
 		return ctx
 
 
@@ -135,11 +125,6 @@ class ContactPage(FormView):
 		# save email to the database
 
 
-		# redirect the user to confirm page
-		
-
-
-
 # if the user sended their mail correct, they would be redirected to the confirmed view
 class ConfirmPage(View):
 	def get(self, request):
@@ -166,31 +151,12 @@ class SecurityContactPage(FormView):
 			}
 			return render(request, 'mainapp/security_bug_send.html', ctx)
 
+# success security page view
 class SuccessSecurityPage(View):
 	def get(self, request):
 		return render(request, 'mainapp/security_success.html')
 
-
-
-	# def get(self, request):
-	# 	form = SecutiryMainForm
-	# 	ctx = {
-	# 	'form':form,
-	# 	}
-	# 	return render(request, 'mainapp/contact_page.html', ctx)
-	# def post(self, request):
-	# 	form = ContactEmailsForm(request.POST)
-	# 	if form.is_valid():
-	# 		form.save()
-	# 		return redirect('mainapp:confirm-contact-page')
-	# 	else:
-	# 		ctx = {
-	# 		'form':form,
-	# 		}
-	# 		return render(request, 'mainapp/contact_page.html', ctx)
-
-
-
-
-
-
+def page_not_found(request, exception):
+	response = render_to_response('404.html',context_instance=RequestContext(request))
+	response.status_code = 404
+	return response

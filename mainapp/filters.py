@@ -4,7 +4,7 @@ from django.forms.widgets import TextInput
 
 from . models import *
 
-
+# This filter file contains basic functionality for our news filtering options 
 
 class newsFilter(django_filters.FilterSet):
 	name = CharFilter(label="", field_name='name', lookup_expr='icontains', widget=TextInput(attrs={'placeholder':'Name'}))

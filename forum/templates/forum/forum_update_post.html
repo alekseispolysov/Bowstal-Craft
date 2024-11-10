@@ -10,8 +10,6 @@
 		<form method="POST" action="">
 			{% csrf_token %}
 
-			<!-- <input type="hidden" name="user" value="{{ request.user }}"> -->
-
 			{{form.media}}
 
 			{{form|crispy}}

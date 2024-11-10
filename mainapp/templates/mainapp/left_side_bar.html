@@ -6,7 +6,7 @@
 		
 		<hr>
 		<table class="table table-striped table-hover ">
-		{% for post in object_list reversed %}
+		{% for post in object_list %}
 		<tr class="">
 			<td class="h-25 text-center" style="padding: 10px !important;">
 				
@@ -15,13 +15,7 @@
 			</td>
 		</tr>
 		{% endfor %}
-		</table>
-		<!-- <ul>
-			{% for post in object_list %}
-			<li><a href="{% url 'mainapp:post-detail' post.id %}">{{ post.name }}</a></li>
-			{% endfor %}
-		</ul> -->
-		
+		</table>	
 		<a class="btn btn-primary" href="{% url 'mainapp:news-all' %}">Show all ({{ news_count }})</a>
 		{% else %}
 		<h2>News navigation</h2>

@@ -4,13 +4,7 @@ from django_admin_filter.filters import CustomFilter # importing admin filters m
 
 from . models import *
 
-# Register your models here.
-
-# class MyAdmin(admin.ModelAdmin):
-#    list_filter = [CustomFilter]
-
-
-
+# This file contains all tables, that should be visible from django admin
 
 admin.site.register(Post)
 admin.site.register(ContactEmail)
